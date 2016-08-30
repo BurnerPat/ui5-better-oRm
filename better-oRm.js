@@ -90,19 +90,7 @@ BetterORM.Element.prototype.expand = function () {
     oRm.write("<" + this._tag);
 
     if (this._classes.length > 0) {
-        var classStr = " class=\"";
-
-        for (var i = 0; i < this._classes.length; i++) {
-            if (i > 0) {
-                classStr += " ";
-            }
-
-            classStr += this._classes[i];
-        }
-
-        classStr += "\"";
-
-        oRm.write(classStr);
+        oRm.write(this._classes.join(" "));
     }
 
     for (var name in this._attributes) {
