@@ -8,6 +8,8 @@ BetterORM.Element = function (owner, parent, tag) {
     this._parent = parent;
     this._tag = tag;
 
+    this._control = null;
+
     this._classes = [];
     this._attributes = {};
     this._html = null;
@@ -25,6 +27,13 @@ BetterORM.prototype.flush = function () {
     this._elements.forEach(function (e) {
         e.expand();
     });
+
+    this._elements = [];
+};
+
+BetterORM.Element.prototype.setControlData = function(control) {
+    this._control = control;
+    return this;
 };
 
 BetterORM.Element.prototype.addClass = function (str) {
@@ -89,8 +98,13 @@ BetterORM.Element.prototype.expand = function () {
 
     oRm.write("<" + this._tag);
 
+    if (this._control !== null) {
+        oRm.write(" ");
+        oRm.writeControlData(this._control);
+    }
+
     if (this._classes.length > 0) {
-        oRm.write(this._classes.join(" "));
+        oRm.write(" class=\"" + this._classes.join(" ") + "\"");
     }
 
     for (var name in this._attributes) {
